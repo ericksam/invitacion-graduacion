@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invitación | Samuel Barrios - Maestría en Seguridad Informática</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #F8F4ED;
+      --bg-secondary: #EDE8E1;
+      --text-primary: #1A2F23;
+      --text-secondary: #3A4A40;
+      --accent-gold: #C9A96E;
+      --accent-gold-light: #D4BC8A;
+      --spacing-xs: 0.5rem;
+      --spacing-sm: 1rem;
+      --spacing-md: 2rem;
+      --spacing-lg: 4rem;
+      --spacing-xl: 6rem;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { font-size: 16px; scroll-behavior: smooth; }
+    body {
+      font-family: 'Cormorant Garamond', serif;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+      cursor: none;
+    }
+    .cursor {
+      width: 8px; height: 8px;
+      background: var(--accent-gold);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      mix-blend-mode: difference;
+      transition: transform 0.15s ease-out, opacity 0.15s ease-out;
+    }
+    .cursor-trail {
+      width: 4px; height: 4px;
+      background: var(--accent-gold-light);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9998;
+      opacity: 0.6;
+      transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+    }
+    .noise {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.03;
+    }
+    .noise::before {
+      content: '';
+      position: absolute;
+      top: -100%; left: -100%;
+      width: 300%; height: 300%;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      animation: noise-move 8s steps(10) infinite;
+    }
+    @keyframes noise-move {
+      0% { transform: translate(0, 0); }
+      10% { transform: translate(-5%, -10%); }
+      20% { transform: translate(-15%, 5%); }
+      30% { transform: translate(7%, -25%); }
+      40% { transform: translate(-5%, 25%); }
+      50% { transform: translate(-15%, 10%); }
+      60% { transform: translate(15%, 0%); }
+      70% { transform: translate(0%, 15%); }
+      80% { transform: translate(3%, 35%); }
+      90% { transform: translate(-10%, 10%); }
+      100% { transform: translate(0, 0); }
+    }
+    .invitation-container {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--spacing-md);
+      position: relative;
+    }
+    .card {
+      max-width: 520px;
+      width: 100%;
+      padding: var(--spacing-xl) var(--spacing-lg);
+      position: relative;
+      text-align: center;
+    }
+    .decoration-top, .decoration-bottom {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+      opacity: 0;
+    }
+    .decoration-top { top: var(--spacing-lg); }
+    .decoration-bottom { bottom: var(--spacing-lg); }
+    .corner {
+      position: absolute;
+      width: 24px; height: 24px;
+      border-color: var(--accent-gold);
+      border-style: solid;
+      opacity: 0;
+    }
+    .corner-tl { top: var(--spacing-md); left: var(--spacing-md); border-width: 1px 0 0 1px; }
+    .corner-tr { top: var(--spacing-md); right: var(--spacing-md); border-width: 1px 1px 0 0; }
+    .corner-bl { bottom: var(--spacing-md); left: var(--spacing-md); border-width: 0 0 1px 1px; }
+    .corner-br { bottom: var(--spacing-md); right: var(--spacing-md); border-width: 0 1px 1px 0; }
+    .eyebrow {
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--accent-gold);
+      margin-bottom: var(--spacing-md);
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    .title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.1rem;
+      font-weight: 400;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      line-height: 1.8;
+      color: var(--text-primary);
+      margin-bottom: var(--spacing-sm);
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    .name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem;
+      font-weight: 300;
+      letter-spacing: 0.12em;
+      color: var(--text-primary);
+      margin-bottom: var(--spacing-xs);
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    .invite-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      font-weight: 300;
+      font-style: italic;
+      letter-spacing: 0.08em;
+      color: var(--text-secondary);
+      margin-top: var(--spacing-md);
+      margin-bottom: var(--spacing-md);
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    .separator {
+      width: 80px; height: 1px;
+      background: var(--accent-gold);
+      margin: var(--spacing-md) auto;
+      opacity: 0;
+      transform: scaleX(0);
+    }
+    .details {
+      margin-top: var(--spacing-md);
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    .detail-item {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 400;
+      letter-spacing: 0.05em;
+      color: var(--text-primary);
+      margin-bottom: var(--spacing-sm);
+    }
+    .detail-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.6rem;
+      font-weight: 500;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--accent-gold);
+      margin-bottom: var(--spacing-xs);
+    }
+    .location {
+      font-family: 'Cinzel', serif;
+      font-size: 1rem;
+      font-weight: 400;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-primary);
+      margin-top: var(--spacing-md);
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    .flourish {
+      margin-top: var(--spacing-lg);
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    .flourish svg {
+      width: 32px; height: 32px;
+      fill: var(--accent-gold);
+      opacity: 0.7;
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes scaleIn {
+      from { opacity: 0; transform: scaleX(0); }
+      to { opacity: 1; transform: scaleX(1); }
+    }
+    .animate-in { animation: fadeInUp 0.8s ease-out forwards; }
+    .animate-in-delay-1 { animation-delay: 0.1s; }
+    .animate-in-delay-2 { animation-delay: 0.2s; }
+    .animate-in-delay-3 { animation-delay: 0.3s; }
+    .animate-in-delay-4 { animation-delay: 0.4s; }
+    .animate-in-delay-5 { animation-delay: 0.5s; }
+    .animate-in-delay-6 { animation-delay: 0.6s; }
+    .animate-in-delay-7 { animation-delay: 0.7s; }
+    .animate-in-delay-8 { animation-delay: 0.8s; }
+    .animate-in-delay-9 { animation-delay: 0.9s; }
+    .separator-animate { animation: scaleIn 0.8s ease-out forwards; animation-delay: 0.5s; }
+    .decoration-animate { animation: fadeIn 1s ease-out forwards; animation-delay: 1.2s; }
+    .hover-element { transition: transform 0.3s ease-out, color 0.3s ease-out; }
+    .hover-element:hover { transform: scale(1.02); }
+    @media (max-width: 600px) {
+      :root { --spacing-lg: 2.5rem; --spacing-xl: 4rem; }
+      .card { padding: var(--spacing-lg) var(--spacing-md); }
+      .name { font-size: 1.8rem; }
+      .title { font-size:
+  </style>
+</head>
+<body>
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-trail" id="cursor-trail"></div>
+  <div class="noise"></div>
+  <main class="invitation-container">
+    <div class="card">
+      <div class="corner corner-tl decoration-animate"></div>
+      <div class="corner corner-tr decoration-animate"></div>
+      <div class="corner corner-bl decoration-animate"></div>
+      <div class="corner corner-br decoration-animate"></div>
+      <div class="decoration-top decoration-animate"></div>
+      <p class="eyebrow hover-element animate-in animate-in-delay-1">Estás cordialmente invitado</p>
+      <h1 class="title animate-in animate-in-delay-2">Ceremonia de Graduación</h1>
+      <h2 class="name hover-element animate-in animate-in-delay-3">Samuel Barrios</h2>
+      <p class="invite-text animate-in animate-in-delay-4">tiene el honor de invitarte a la ceremonia de imposición<br>de grado de su Maestría en Seguridad Informática</p>
+      <div class="separator separator-animate"></div>
+      <div class="details hover-element animate-in animate-in-delay-6">
+        <p class="detail-label">Fecha</p>
+        <p class="detail-item">Sábado 24 de Mayo de 2026</p>
+      </div>
+      <div class="details hover-element animate-in animate-in-delay-7">
+        <p class="detail-label">Hora</p>
+        <p class="detail-item">14:00 horas</p>
+      </div>
+      <p class="location animate-in animate-in-delay-8">Restaurante Tango<br>Decocity</p>
+      <div class="decoration-bottom decoration-animate"></div>
+      <div class="flourish animate-in animate-in-delay-9">
+        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16 0C16 0 16 16 16 32M0 16C0 16 16 16 32 16M4.93 4.93C4.93 4.93 16 16 16 16M27.07 4.93C27.07 4.93 16 16 16 16M4.93 27.07C4.93 27.07 16 16 16 16M27.07 27.07C27.07 27.07 16 16 16 16"/>
+        </svg>
+      </div>
+    </div>
+  </main>
+  <script>
+    const cursor = document.getElementById("cursor");
+    const cursorTrail = document.getElementById("cursor-trail");
+    let mouseX = 0, mouseY = 0;
+    let trailX = 0, trailY = 0;
+    document.addEventListener("mousemove", (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      cursor.style.left = (mouseX - 4) + "px";
+      cursor.style.top = (mouseY - 4) + "px";
+    });
+    function animateTrail() {
+      trailX += (mouseX - trailX) * 0.15;
+      trailY += (mouseY - trailY) * 0.15;
+      cursorTrail.style.left = (trailX - 2) + "px";
+      cursorTrail.style.top = (trailY - 2) + "px";
+      requestAnimationFrame(animateTrail);
+    }
+    animateTrail();
+    document.addEventListener("mouseleave", () => { cursor.style.opacity = "0"; cursorTrail.style.opacity = "0"; });
+    document.addEventListener("mouseenter", () => { cursor.style.opacity = "1"; cursorTrail.style.opacity = "0.6"; });
+    document.querySelectorAll(".hover-element").forEach(el => {
+      el.addEventListener("mouseenter", () => {
+        cursor.style.transform = "translate(-50%, -50%) scale(2)";
+        cursor.style.background = "transparent";
+        cursor.style.border = "2px solid var(--accent-gold)";
+      });
+      el.addEventListener("mouseleave", () => {
+        cursor.style.transform = "translate(-50%, -50%) scale(1)";
+        cursor.style.background = "var(--accent-gold)";
+        cursor.style.border = "none";
+      });
+    });
+  </script>
+</body>
+</html>
