@@ -241,6 +241,26 @@
       transform: translateY(20px);
     }
     
+    .quota {
+      font-family: 'Italiana', serif;
+      font-size: 1rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-top: 2rem;
+      padding: 0.6rem 1.2rem;
+      border: 1px solid var(--gold);
+      opacity: 0;
+      transform: translateY(20px);
+      display: inline-block;
+      animation: fadeInUp 0.8s ease-out forwards 1.5s, pulse 2s ease-in-out 2.3s infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(184, 149, 110, 0.4); }
+      50% { box-shadow: 0 0 0 8px rgba(184, 149, 110, 0); }
+    }
+    
     .flourish {
       margin-top: 2.5rem;
       opacity: 0;
@@ -341,7 +361,9 @@
     </a>
     <p class="location-sub animate animate-delay-8">Decocity</p>
     
-    <div class="flourish animate animate-delay-9">
+    <p class="quota animate animate-delay-9">Cupo para 1 persona</p>
+    
+    <div class="flourish animate animate-delay-10">
       <svg viewBox="0 0 24 24">
         <path d="M12 2L12 22M2 12L22 12M5.5 5.5L18.5 18.5M18.5 5.5L5.5 18.5"/>
       </svg>
